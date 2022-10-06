@@ -1,16 +1,15 @@
-package def.proxy;
+package com.teliacompany.frontend.poc.proxy;
 
-import def.LoginEntity;
+import com.teliacompany.frontend.poc.entities.LoginEntity;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("myPath")
 @Produces(MediaType.TEXT_PLAIN)
 @RegisterRestClient(baseUri = "http://localhost:8082/")
-public interface TestProxy {
+public interface ProxyWebResource {
 
     // FULL URL: http://localhost:8082/myPath/hello
     @GET

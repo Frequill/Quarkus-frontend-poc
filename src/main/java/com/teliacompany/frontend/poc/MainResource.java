@@ -1,9 +1,9 @@
-package def;
+package com.teliacompany.frontend.poc;
 
-import def.proxy.TestProxy;
+import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
+import com.teliacompany.frontend.poc.entities.LoginEntity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 public class MainResource {
 
     @RestClient
-    TestProxy proxy;
+    ProxyWebResource proxy;
 
     @GET
     @Path("/testHello")
@@ -23,6 +23,11 @@ public class MainResource {
         return Response.ok(result).build();
     }
 
+    /**
+     Function mkUser does not yet work
+
+     Be flygpar'n förklara hur jag nyttjar flera parametrar... Hela stack overflow ljuger för mig
+     */
     @GET
     @Path("/mkUser")
     @Produces({MediaType.TEXT_PLAIN})

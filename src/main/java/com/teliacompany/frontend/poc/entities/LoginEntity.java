@@ -1,4 +1,4 @@
-package def;
+package com.teliacompany.frontend.poc.entities;
 
 import javax.json.bind.annotation.JsonbProperty;
 
