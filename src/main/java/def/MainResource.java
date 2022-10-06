@@ -3,9 +3,8 @@ package def;
 import def.proxy.TestProxy;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.json.Json;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,6 +21,15 @@ public class MainResource {
         String result = proxy.hello();
         System.out.println("TestHello went off!");
         return Response.ok(result).build();
+    }
+
+    @POST
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response loginUser(LoginEntity loginEntity) {
+        loginEntity = proxy.login();
+        return Response.ok(loginEntity).build();
     }
 
 

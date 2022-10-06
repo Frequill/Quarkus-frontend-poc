@@ -1,10 +1,9 @@
 package def.proxy;
 
+import def.LoginEntity;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("myPath")
@@ -17,4 +16,10 @@ public interface TestProxy {
     @GET
     @Path("/hello")
     String hello();
+
+    @POST
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    LoginEntity login();
 }
