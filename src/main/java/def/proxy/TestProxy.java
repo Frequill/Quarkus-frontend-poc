@@ -13,14 +13,22 @@ import javax.ws.rs.core.Response;
 public interface TestProxy {
 
     // FULL URL: http://localhost:8082/myPath/hello
-
     @GET
     @Path("/hello")
     String hello();
 
+    @GET
+    @Path("/mkUser")
+    String mkUser(@QueryParam("username") String username, @QueryParam("password") String password, @QueryParam("email") String email);
+
+    @GET
+    @Path("/getAllUsers")
+    String getAllUsers();
+
+    // FULL URL: http://localhost:8082/myPath/login
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Response login(LoginEntity payloadToSend);
+    LoginEntity login(LoginEntity payloadToSend);
 }

@@ -23,16 +23,30 @@ public class MainResource {
         return Response.ok(result).build();
     }
 
+    @GET
+    @Path("/mkUser")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Response mkUser(@QueryParam("username") String username, @QueryParam("password") String password, @QueryParam("email") String email) {
+        String result = proxy.mkUser(username, password, email);
+        System.out.println("RESULT = " + result);
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/getAllUsers")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAllUsers(){
+        String result = proxy.getAllUsers();
+        return Response.ok(result).build();
+    }
+
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response loginUser(LoginEntity loginEntity) {
-        Response result = proxy.login(loginEntity);
-        return Response.ok(result).build();
+    public LoginEntity loginUser(LoginEntity loginEntity) {
+        return proxy.login(loginEntity);
     }
-
-
 
 
 }

@@ -2,6 +2,9 @@ package def;
 
 import javax.json.bind.annotation.JsonbProperty;
 
+/**
+ * This is a loginEntity, it mirrors a LoginEntity class in backend1 which holds a users information in Jsonb properties
+ */
 public class LoginEntity {
 
     @JsonbProperty("status")
