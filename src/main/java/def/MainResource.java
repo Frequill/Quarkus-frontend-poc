@@ -28,8 +28,8 @@ public class MainResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response loginUser(LoginEntity loginEntity) {
-        loginEntity = proxy.login();
-        return Response.ok(loginEntity).build();
+        Response result = proxy.login(loginEntity);
+        return Response.ok(result).build();
     }
 
 
