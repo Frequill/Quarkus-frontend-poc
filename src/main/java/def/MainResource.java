@@ -19,8 +19,9 @@ public class MainResource {
     @Path("/testHello")
     @Produces(MediaType.TEXT_PLAIN)
     public Response testHello(){
-        TestObj helloTest = (proxy.hello());
-        return Response.ok(helloTest).build();
+        String result = proxy.hello();
+        System.out.println("TestHello went off!");
+        return Response.ok(result).build();
     }
 
 

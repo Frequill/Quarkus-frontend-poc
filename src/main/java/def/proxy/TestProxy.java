@@ -1,6 +1,5 @@
 package def.proxy;
 
-import def.TestObj;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.GET;
@@ -17,5 +16,5 @@ public interface TestProxy {
 
     @GET
     @Path("/hello")
-    TestObj hello();
+    String hello();
 }
