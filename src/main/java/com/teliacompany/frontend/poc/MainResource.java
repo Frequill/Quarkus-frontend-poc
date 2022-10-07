@@ -48,9 +48,6 @@ public class MainResource {
     public LoginEntity loginUser(LoginEntity loginEntity) {
         loginEntity = proxy.login(loginEntity);
         activeAccounts.put(loginEntity.getUsername(), loginEntity);
-
-        // TEST SOUT
-        System.out.println("Active accounts if we get by your username = " + activeAccounts.get(loginEntity.getUsername()).getLoginToken());
         return loginEntity;
     }
 
