@@ -13,10 +13,11 @@ public class LoginEntity {
     private String status;
     @JsonbProperty("username")
     private String username;
-    @JsonbProperty("loginToken")
-    private String loginToken;
     @JsonbProperty("password")
     private String password;
+    @JsonbProperty("loginToken") // "loginEntity" holds the token created when they were logged in.
+    private String loginToken;
+
 
 
     public String getStatus() {
@@ -35,6 +36,14 @@ public class LoginEntity {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getLoginToken() {
         return loginToken;
     }
@@ -43,11 +52,4 @@ public class LoginEntity {
         this.loginToken = loginToken;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

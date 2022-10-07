@@ -54,13 +54,20 @@ public class MainResource {
         return loginEntity;
     }
 
-    @GET
-    @Path("/logout/{token}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response logout(@PathParam("token") String token) {
-        System.out.println("LOGOUT METHOD CALLED!");
+    /**
+     Curl path: curl http://localhost:8080/main/logout/***YOUR LOGIN TOKEN HERE***
 
-        String result = proxy.logout(token);
+
+     JAG SVÄR att denna metod fungerade för en timme sedan????  -Be Jonas om hjälp, efter det så är ni redo för eventbus!
+
+     */
+    @GET
+    @Path("/logout/{username}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response logout(@PathParam("username") String username) {
+        System.out.println("Here is your token = " + activeAccounts.get(username).getLoginToken());
+
+        String result = proxy.logout(activeAccounts.get(username).getLoginToken());
         return Response.ok(result).build();
     }
 

@@ -33,7 +33,7 @@ public interface ProxyWebResource {
     @GET
     @Path("/logout/{token}")
     // Token sent to backend which logs user out
-    String logout(@QueryParam("token") String token);
+    String logout(@QueryParam("{token}") String token);
 
     @GET
     @Path("/getAllUsers")
