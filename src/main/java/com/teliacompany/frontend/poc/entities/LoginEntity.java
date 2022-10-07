@@ -7,6 +7,8 @@ import javax.json.bind.annotation.JsonbProperty;
  */
 public class LoginEntity {
 
+    // FRONTEND login entity SHOULD contain loginToken
+
     @JsonbProperty("status")
     private String status;
     @JsonbProperty("username")
