@@ -1,6 +1,7 @@
 package com.teliacompany.frontend.poc.proxy;
 
 import com.teliacompany.frontend.poc.entities.LoginEntity;
+import com.teliacompany.frontend.poc.entities.UserEntity;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.*;
@@ -16,13 +17,11 @@ public interface ProxyWebResource {
     @Path("/hello")
     String hello();
 
-    @GET
+    @POST
     @Path("/mkUser")
-    String mkUser(@QueryParam("username") String username, @QueryParam("password") String password, @QueryParam("email") String email);
-
-    @GET
-    @Path("/getAllUsers")
-    String getAllUsers();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    UserEntity mkUser(UserEntity payloadToSend);
 
     // FULL URL: http://localhost:8082/myPath/login
     @POST
@@ -30,4 +29,11 @@ public interface ProxyWebResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     LoginEntity login(LoginEntity payloadToSend);
+
+    @GET
+    @Path("/getAllUsers")
+    String getAllUsers();
+
+
+
 }

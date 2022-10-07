@@ -1,5 +1,6 @@
 package com.teliacompany.frontend.poc;
 
+import com.teliacompany.frontend.poc.entities.UserEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
 import com.teliacompany.frontend.poc.entities.LoginEntity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -24,25 +25,17 @@ public class MainResource {
     }
 
     /**
-     Function mkUser does not yet work
+     Function now works!
 
-     Be flygpar'n förklara hur jag nyttjar flera parametrar... Hela stack overflow ljuger för mig
+     Uses post to send a "UserEntity" to backend which creates an identical entity and stores it in hashMap
      */
-    @GET
+    @POST
     @Path("/mkUser")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Response mkUser(@QueryParam("username") String username, @QueryParam("password") String password, @QueryParam("email") String email) {
-        String result = proxy.mkUser(username, password, email);
-        System.out.println("RESULT = " + result);
-        return Response.ok(result).build();
-    }
-
-    @GET
-    @Path("/getAllUsers")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response getAllUsers(){
-        String result = proxy.getAllUsers();
-        return Response.ok(result).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public UserEntity mkUser(UserEntity userEntity) {
+        System.out.println("WE ENTERED mkUser! :)");
+        return proxy.mkUser(userEntity);
     }
 
     @POST
@@ -51,6 +44,14 @@ public class MainResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public LoginEntity loginUser(LoginEntity loginEntity) {
         return proxy.login(loginEntity);
+    }
+
+    @GET
+    @Path("/getAllUsers")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAllUsers(){
+        String result = proxy.getAllUsers();
+        return Response.ok(result).build();
     }
 
 
