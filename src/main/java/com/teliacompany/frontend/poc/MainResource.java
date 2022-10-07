@@ -41,6 +41,9 @@ public class MainResource {
         return proxy.mkUser(userEntity);
     }
 
+    /**
+     Curl path: curl -H "Content-Type: application/json" -H "Accept: application/json" -X POST -d '{"username":"testUser", "password":"password"}' "http://localhost:8080/main/login"
+     */
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,10 +55,12 @@ public class MainResource {
     }
 
     @GET
-    @Path("/logout")
+    @Path("/logout/{token}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response logout(@QueryParam("loginToken") String loginToken) {
-        String result = proxy.logout();
+    public Response logout(@PathParam("token") String token) {
+        System.out.println("LOGOUT METHOD CALLED!");
+
+        String result = proxy.logout(token);
         return Response.ok(result).build();
     }
 

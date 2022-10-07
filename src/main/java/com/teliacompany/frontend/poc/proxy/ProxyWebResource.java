@@ -31,8 +31,9 @@ public interface ProxyWebResource {
     LoginEntity login(LoginEntity payloadToSend);
 
     @GET
-    @Path("/logout")
-    String logout();
+    @Path("/logout/{token}")
+    // Token sent to backend which logs user out
+    String logout(@QueryParam("token") String token);
 
     @GET
     @Path("/getAllUsers")
