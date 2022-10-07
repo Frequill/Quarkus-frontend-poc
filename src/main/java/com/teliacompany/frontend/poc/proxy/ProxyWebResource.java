@@ -31,6 +31,10 @@ public interface ProxyWebResource {
     LoginEntity login(LoginEntity payloadToSend);
 
     @GET
+    @Path("/logout")
+    String logout();
+
+    @GET
     @Path("/getAllUsers")
     String getAllUsers();
 

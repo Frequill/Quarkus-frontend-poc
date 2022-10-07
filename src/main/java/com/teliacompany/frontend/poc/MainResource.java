@@ -8,9 +8,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 
 @Path("/main")
 public class MainResource {
+
+    public HashMap<String, LoginEntity> activeAccounts = new HashMap<>();
 
     @RestClient
     ProxyWebResource proxy;
@@ -43,7 +46,20 @@ public class MainResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public LoginEntity loginUser(LoginEntity loginEntity) {
-        return proxy.login(loginEntity);
+        loginEntity = proxy.login(loginEntity);
+        activeAccounts.put(loginEntity.getUsername(), loginEntity);
+
+        // TEST SOUT
+        System.out.println("Active accounts if we get by your username = " + activeAccounts.get(loginEntity.getUsername()).getLoginToken());
+        return loginEntity;
+    }
+
+    @GET
+    @Path("/logout")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response logout(@QueryParam("loginToken") String loginToken) {
+        String result = proxy.logout();
+        return Response.ok(result).build();
     }
 
     @GET
