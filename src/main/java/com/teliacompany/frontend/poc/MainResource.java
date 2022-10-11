@@ -3,8 +3,12 @@ package com.teliacompany.frontend.poc;
 import com.teliacompany.frontend.poc.entities.UserEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
 import com.teliacompany.frontend.poc.entities.LoginEntity;
+import io.vertx.mutiny.core.eventbus.EventBus;
+import io.vertx.mutiny.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,6 +22,12 @@ public class MainResource {
     @RestClient
     ProxyWebResource proxy;
 
+    @Inject
+    EventBus eventBus; // Should not need an evenBus here... I think?
+
+    @ApplicationScoped
+    BackendService backendService;
+
     @GET
     @Path("/testHello")
     @Produces(MediaType.TEXT_PLAIN)
@@ -26,6 +36,29 @@ public class MainResource {
         System.out.println("TestHello went off!");
         return Response.ok(result).build();
     }
+
+    /**
+     Dummy method designed to test the eventbus and the LoggerService class
+     */
+    @GET
+    @Path("/logBus/{data}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String logBus(@QueryParam("data") @DefaultValue("dummyData") String data) {
+        String result = String.valueOf(eventBus.publish("myLogger", data));
+        return result;
+    }
+
+    @GET
+    @Path("/hello")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String helloBus() {
+        Message<String> result = eventBus.requestAndAwait("EB_hello", null);
+        System.out.println("Result address: " + result.address());
+        System.out.println("Result replyAddress: " + result.replyAddress());
+
+        return result.body();
+    }
+
 
     /**
      Function now works!
