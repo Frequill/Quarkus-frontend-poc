@@ -3,6 +3,7 @@ package com.teliacompany.frontend.poc.proxy;
 import com.teliacompany.frontend.poc.entities.LoginEntity;
 import com.teliacompany.frontend.poc.entities.UserEntity;
 import io.smallrye.mutiny.Uni;
+import io.vertx.mutiny.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.*;
@@ -36,7 +37,7 @@ public interface ProxyWebResource {
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    LoginEntity login(LoginEntity payloadToSend);
+    Uni<LoginEntity> login(LoginEntity payloadToSend);
 
     @GET
     @Path("/logout/{token}")

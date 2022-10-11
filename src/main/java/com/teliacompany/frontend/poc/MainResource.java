@@ -3,6 +3,7 @@ package com.teliacompany.frontend.poc;
 import com.teliacompany.frontend.poc.entities.UserEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
 import com.teliacompany.frontend.poc.entities.LoginEntity;
+import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -82,9 +83,8 @@ public class MainResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public LoginEntity loginUser(LoginEntity loginEntity) {
-        loginEntity = proxy.login(loginEntity);
-        activeAccounts.put(loginEntity.getUsername(), loginEntity);
-        return loginEntity;
+        Message<LoginEntity> result = eventBus.requestAndAwait("EB_login", loginEntity);
+        return result.body();
     }
 
     /**

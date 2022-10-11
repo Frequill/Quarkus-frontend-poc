@@ -1,5 +1,6 @@
 package com.teliacompany.frontend.poc;
 
+import com.teliacompany.frontend.poc.entities.LoginEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
@@ -21,11 +22,25 @@ public class BackendService {
     // Until issue with blocked calls is resolved, we fake our backend calls
 
     @ConsumeEvent("EB_hello")
-    public void EB_helloName(Message<String> data) {
+    public void EB_hello(Message<String> data) {
         Uni<String> result = proxy.getHello();
 
         result.subscribe().with(success -> {
             System.out.println("Got response from backend!");
+            data.reply(success);
+        },
+        failure -> {
+            System.out.println("Call to backend REST service failed, failure = " + failure);
+            data.reply("Failed sending call to backend");
+        });
+    }
+
+    @ConsumeEvent("EB_login")
+    public void EB_login(Message<LoginEntity> data){
+        Uni<LoginEntity> result = proxy.login(data.body());
+
+        result.subscribe().with(success -> {
+            System.out.println("Got data from backend!");
             data.reply(success);
         },
         failure -> {
