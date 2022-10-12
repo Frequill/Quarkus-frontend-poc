@@ -65,6 +65,8 @@ public class MainResource {
      Function now works!
 
      Uses post to send a "UserEntity" to backend which creates an identical entity and stores it in hashMap
+
+     curl path: curl -H "Content-Type: application/json" -H "Accept: application/json" -X POST -d '{"username":"usernameHere", "password":"passwordHere", "email":"emailHere"}' "http://localhost:8080/main/mkUser"
      */
     @POST
     @Path("/mkUser")
