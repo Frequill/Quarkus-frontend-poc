@@ -20,7 +20,7 @@ public interface ProxyWebResource {
     @Produces(MediaType.TEXT_PLAIN)
     String hello();
 
-    // Can this return through eventbus? If so, this is the new model that we use!
+    // Can this return through eventbus? If so, this is the new model that we use! - YES it can! //Future Julius
     @GET
     @Path("/hello")
     @Produces(MediaType.TEXT_PLAIN)
@@ -30,7 +30,7 @@ public interface ProxyWebResource {
     @Path("/mkUser")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    UserEntity mkUser(UserEntity payloadToSend);
+    Uni<UserEntity> mkUser(UserEntity payloadToSend);
 
     // FULL URL: http://localhost:8082/myPath/login
     @POST
@@ -46,7 +46,7 @@ public interface ProxyWebResource {
 
     @GET
     @Path("/getAllUsers")
-    String getAllUsers();
+    Uni<String> getAllUsers();
 
 
 

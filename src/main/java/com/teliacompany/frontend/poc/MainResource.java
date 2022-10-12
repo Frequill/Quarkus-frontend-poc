@@ -71,8 +71,8 @@ public class MainResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public UserEntity mkUser(UserEntity userEntity) {
-        System.out.println("WE ENTERED mkUser! :)");
-        return proxy.mkUser(userEntity);
+        Message<UserEntity> result = eventBus.requestAndAwait("EB_mkUser", userEntity);
+        return result.body();
     }
 
     /**
@@ -107,9 +107,11 @@ public class MainResource {
     @GET
     @Path("/getAllUsers")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAllUsers(){
-        String result = proxy.getAllUsers();
-        return Response.ok(result).build();
+    public String getAllUsers(){
+        // Since no data needs to be sent to "BackendService" we simply send no data, the parameter in the called
+        // method will be filled with results from backend and then sent back here anyway so it's okay if it's empty when we send it.
+        Message<String> result = eventBus.requestAndAwait("EB_getAllUsers", null);
+        return result.body();
     }
 
 

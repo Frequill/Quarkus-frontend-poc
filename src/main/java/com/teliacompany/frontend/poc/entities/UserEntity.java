@@ -4,11 +4,11 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class UserEntity {
 
-    @JsonbProperty
+    @JsonbProperty("username")
     private String username;
-    @JsonbProperty
+    @JsonbProperty("password")
     private String password;
-    @JsonbProperty
+    @JsonbProperty("email")
     private String email;
 
 
