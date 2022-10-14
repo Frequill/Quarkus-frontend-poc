@@ -5,22 +5,16 @@ import com.teliacompany.frontend.poc.entities.UserEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
-import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
-public class BackendService {
+public class EventbusListener {
 
     @RestClient
     ProxyWebResource proxy;
-
-    // When I put this method THIS way I get error: "(NO_HANDLERS,-1) No handlers for address EB_backend".  -- Why? :/
-
-    // Until issue with blocked calls is resolved, we fake our backend calls
 
     @ConsumeEvent("EB_hello")
     public void EB_hello(Message<String> data) {

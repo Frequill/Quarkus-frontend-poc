@@ -1,14 +1,12 @@
 package com.teliacompany.frontend.poc;
 
+import com.teliacompany.frontend.poc.entities.LoginEntity;
 import com.teliacompany.frontend.poc.entities.UserEntity;
 import com.teliacompany.frontend.poc.proxy.ProxyWebResource;
-import com.teliacompany.frontend.poc.entities.LoginEntity;
-import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.eventbus.EventBus;
 import io.vertx.mutiny.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,15 +17,10 @@ import java.util.HashMap;
 public class MainResource {
 
     public HashMap<String, LoginEntity> activeAccounts = new HashMap<>();
-
     @RestClient
     ProxyWebResource proxy;
-
     @Inject
-    EventBus eventBus; // Should not need an evenBus here... I think?
-
-    @ApplicationScoped
-    BackendService backendService;
+    EventBus eventBus;
 
     @GET
     @Path("/testHello")
@@ -60,7 +53,6 @@ public class MainResource {
         return result.body();
     }
 
-
     /**
      Function now works!
 
@@ -86,6 +78,7 @@ public class MainResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public LoginEntity loginUser(LoginEntity loginEntity) {
         Message<LoginEntity> result = eventBus.requestAndAwait("EB_login", loginEntity);
+        activeAccounts.put(result.body().getUsername(), result.body());
         return result.body();
     }
 
@@ -93,16 +86,34 @@ public class MainResource {
      Curl path: curl http://localhost:8080/main/logout/***YOUR LOGIN TOKEN HERE***
 
 
-     JAG SVÄR att denna metod fungerade för en timme sedan????  -Be Jonas om hjälp, efter det så är ni redo för eventbus!
+     Method "logout" now fully functional BUT it's blocking. Should get this on eventbus
 
      */
     @GET
     @Path("/logout/{username}")
     @Produces(MediaType.TEXT_PLAIN)
     public Response logout(@PathParam("username") String username) {
-        System.out.println("Here is your token = " + activeAccounts.get(username).getLoginToken());
+        // TODO: Make this method call through eventbus instead of direct through REST client
 
-        String result = proxy.logout(activeAccounts.get(username).getLoginToken());
+        if (activeAccounts.get(username) != null) {
+            System.out.println("Here is your token = " + activeAccounts.get(username).getLoginToken());
+            String result = proxy.logout(activeAccounts.get(username).getLoginToken());
+
+            // Remove the previously active, now logged out account from activeAccounts
+            activeAccounts.remove(username);
+            return Response.ok(result).build();
+        }
+
+        return Response.ok("No such account is active in current session...").build();
+    }
+
+    @GET
+    @Path("/logoutToken/{token}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response logoutToken(@PathParam("token") String token) {
+        System.out.println("Here is your token = " + token);
+
+        String result = proxy.logout(token);
         return Response.ok(result).build();
     }
 
