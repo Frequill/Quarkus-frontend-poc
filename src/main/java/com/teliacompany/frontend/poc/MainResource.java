@@ -13,6 +13,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 
+/**
+ ******************************************************* READ ME *******************************************************
+ *
+ This class has been made entirely irrelevant after the creation of the "MainRedis" class which handles communication
+ with backend through the Quarkus-redis-client instead of simple REST-easy commands. Use MainRedis.java INSTEAD OF THIS!
+
+ ******************************************************* READ ME *******************************************************
+ */
+
 @Path("/main")
 public class MainResource {
 

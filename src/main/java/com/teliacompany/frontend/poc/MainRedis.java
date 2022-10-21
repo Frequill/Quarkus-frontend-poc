@@ -19,10 +19,16 @@ import javax.ws.rs.core.MediaType;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+    This is THE WAY to communicate with a backend. Through a local redis server instead of just REST-client!
+ */
+
 @Path("/redis")
 @Startup
 @ApplicationScoped
 public class MainRedis {
+
+    //TODO: I would LOVE to add a JavaFX based GUI to this, just for simpler testing and for the fun of it...
 
     @Inject
     ReactiveRedisDataSource redis;
@@ -37,7 +43,20 @@ public class MainRedis {
 
 
     /**
-     Call with: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"login", "jsonTest":"username=testUser password=password"}' "http://localhost:8080/redis/sendRequest"
+     Follow structure of "calls" to use "sendRequest" properly, *** represents YOUR inputs
+     Test Login with default "testUser": Login: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"login", "inputString":"username,testUser,password,password"}' "http://localhost:8080/redis/sendRequest"
+
+     sayHello: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"sayHello"}' "http://localhost:8080/redis/sendRequest"
+
+
+     Create user: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"createAccount", "inputString":"username,***,password,***,email,***"}' "http://localhost:8080/redis/sendRequest"
+
+     Login: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"login", "inputString":"username,***,password,***"}' "http://localhost:8080/redis/sendRequest"
+
+     Logout: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"logout", "inputString":"loginToken,***"}' "http://localhost:8080/redis/sendRequest"
+
+     getAllUsers: curl -H "Content-Type: application/json" -H "Accepts: application/json" -X POST -d '{"name":"getAllUsers"}' "http://localhost:8080/redis/sendRequest"
+
 
      This method creates a RequestEntity per user input in POST call. It then places said entity in a redis list called
      "requests". It then waits for backend to respond by placing a respons in a new separate list with the same name
@@ -65,7 +84,7 @@ public class MainRedis {
             keys = redis.key();
         }
 
-        System.out.println("Received request: id=" + arg.getRequestId() + ", name=" + arg.getName() + ", specialAttack=" + arg.getJsonTest());
+        System.out.println("Received request: id=" + arg.getRequestId() + ", name=" + arg.getName() + ", specialAttack=" + arg.getInputString());
         System.out.println("Now pushing payload to REDIS...");
 
 
@@ -81,18 +100,7 @@ public class MainRedis {
                             + ", response = " + ce.response))
                     .onItem().ifNull().continueWith(new ResponseEntity());
         });
-
-
-
-
     }
-
-
-
-
-
-
-
 
 
 

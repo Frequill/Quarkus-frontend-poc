@@ -8,13 +8,13 @@ public class RequestEntity {
     private String requestId;
     @JsonbProperty("name")
     private String name;
-    @JsonbProperty("jsonTest")
-    private String jsonTest;
+    @JsonbProperty("inputString")
+    private String inputString;
 
-    public RequestEntity(String requestId, String name, String jsonTest) {
+    public RequestEntity(String requestId, String name, String inputString) {
         this.requestId = requestId;
         this.name = name;
-        this.jsonTest = jsonTest;
+        this.inputString = inputString;
     }
 
     public RequestEntity() {}
@@ -35,11 +35,11 @@ public class RequestEntity {
         this.name = name;
     }
 
-    public String getJsonTest() {
-        return jsonTest;
+    public String getInputString() {
+        return inputString;
     }
 
-    public void setJsonTest(String jsonTest) {
-        this.jsonTest = jsonTest;
+    public void setInputString(String inputString) {
+        this.inputString = inputString;
     }
 }
